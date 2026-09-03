@@ -49,16 +49,21 @@ app.use("/uploads", express.static(path.join(path.resolve(), "/uploads")));
 
 // ─── Production: serve Vite build ───────────────────────────────────────────
 if (process.env.NODE_ENV === "production") {
-  // On Vercel: frontend/dist (outputDirectory). On Render: dist (after mv)
-  const frontendBuildPath = process.env.VERCEL
-    ? path.join(path.resolve(), "frontend", "dist")
-    : path.join(path.resolve(), "dist");
+  const fs = require("fs");
+  const distPath = path.join(path.resolve(), "dist");
+  const frontendDistPath = path.join(path.resolve(), "frontend", "dist");
+  const frontendBuildPath = fs.existsSync(frontendDistPath) ? frontendDistPath : distPath;
 
   app.use(express.static(frontendBuildPath));
 
   // All non-API routes → React SPA
   app.get("*", (req, res) => {
-    res.sendFile(path.resolve(frontendBuildPath, "index.html"));
+    const indexPath = path.resolve(frontendBuildPath, "index.html");
+    if (fs.existsSync(indexPath)) {
+      res.sendFile(indexPath);
+    } else {
+      res.status(404).send("Frontend build not found. Please ensure build completed.");
+    }
   });
 }
 
