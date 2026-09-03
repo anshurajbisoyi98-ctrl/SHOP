@@ -1,4 +1,7 @@
 {
+  "version": 2,
+  "buildCommand": "npm install --prefix frontend && npm run build --prefix frontend",
+  "outputDirectory": "frontend/dist",
   "rewrites": [
     {
       "source": "/api/(.*)",
@@ -8,5 +11,11 @@
       "source": "/(.*)",
       "destination": "/index.html"
     }
-  ]
+  ],
+  "functions": {
+    "backend/index.js": {
+      "memory": 1024,
+      "maxDuration": 10
+    }
+  }
 }
