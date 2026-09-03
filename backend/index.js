@@ -45,7 +45,11 @@ app.use("/uploads", express.static(path.join(path.resolve(), "/uploads")));
 
 // ─── Production: serve Vite build ───────────────────────────────────────────
 if (process.env.NODE_ENV === "production") {
-  const frontendBuildPath = path.join(path.resolve(), "dist");
+  // On Vercel: frontend/dist (outputDirectory). On Render: dist (after mv)
+  const frontendBuildPath = process.env.VERCEL
+    ? path.join(path.resolve(), "frontend", "dist")
+    : path.join(path.resolve(), "dist");
+
   app.use(express.static(frontendBuildPath));
 
   // All non-API routes → React SPA
