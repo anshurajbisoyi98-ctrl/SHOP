@@ -20,7 +20,11 @@ dotenv.config();
 
 const port = process.env.PORT || 5000;
 
-connectDB();
+// On Vercel, DB connection is handled in api/index.js (serverless handler)
+// On Render/local, connect here at startup
+if (!process.env.VERCEL) {
+  connectDB();
+}
 
 const app = express();
 
