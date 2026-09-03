@@ -1,0 +1,39 @@
+#navigation-container {
+  width: 4%;
+  transition: width 0.35s cubic-bezier(0.4, 0, 0.2, 1);
+  overflow: hidden;
+}
+
+#navigation-container:hover {
+  width: 15%;
+}
+
+/* Nav item labels — fade in instead of abruptly appearing */
+.nav-item-name {
+  display: block;
+  opacity: 0;
+  white-space: nowrap;
+  transition: opacity 0.25s ease 0.1s;
+  pointer-events: none;
+}
+
+#navigation-container:hover .nav-item-name {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* Search */
+.search-input {
+  display: none;
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+
+#navigation-container:hover .search-input {
+  display: block;
+  opacity: 1;
+}
+
+#navigation-container:hover .search-icon {
+  display: none;
+}
